@@ -1,4 +1,4 @@
-from Wrapper.layers import *
+ifrom Wrapper.layers import *
 from Wrapper.wrappers import make_atari, wrap_deepmind, wrap_pytorch
 import math, random
 import gym
@@ -9,8 +9,18 @@ import torch.nn as nn
 import torch.optim as optim
 import torch.autograd as autograd 
 import torch.nn.functional as F
+import sys
+pthname_lst = [x for x in sys.argv if x.endswith(".pth")]
+if(len(sys.argv) < 2 or len(pthname_lst) != 1):
+    print("No model loaded, defaulting to model_pretrained.pth")
+    pthname = "model_pretrained.pth"
+else:
+    pthname = pthname_lst[0]
+
 USE_CUDA = torch.cuda.is_available()
 from dqn import QLearner, compute_td_loss, ReplayBuffer
+
+fileSaveName = "model_save.pth"
 
 env_id = "PongNoFrameskip-v4"
 env = make_atari(env_id)
@@ -80,6 +90,9 @@ for frame_idx in range(1, num_frames + 1):
 
     if frame_idx % 50000 == 0:
         target_model.copy_from(model)
+
+    if frame_idx % 10000 == 0:
+        torch.save(model.state_dict(), fileSaveName)
 
 
 

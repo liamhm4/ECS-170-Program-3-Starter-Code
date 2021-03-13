@@ -17,7 +17,7 @@ class QLearner(nn.Module):
         self.num_frames = num_frames
         self.replay_buffer = replay_buffer
         self.env = env
-        self.input_shape = self.env.observation_space.shape
+        self.input_shape = self.env.observation_space.wshape
         self.num_actions = self.env.action_space.n
 
         self.features = nn.Sequential(
@@ -48,10 +48,10 @@ class QLearner(nn.Module):
         if random.random() > epsilon:
             state = Variable(torch.FloatTensor(np.float32(state)).unsqueeze(0), requires_grad=True)
             # TODO: Given state, you should write code to get the Q value and chosen action
-        
+            qs = self(state)
+            action = torch.argmax(qs)
 
-
-
+            #q_actual = self(state).detach().cpu().numpy()
 
 
         else:
@@ -72,7 +72,13 @@ def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     done = Variable(torch.FloatTensor(done))
     # implement the loss function here
 
-
+    q=model(state).gather(1,action.unsqueeze(-1)).squeeze(-1)
+    y=target_model(next_state).detach().max(1)[0]
+    y[done==1]=0
+    y=y+reward
+    #model(state).gather(1, action.unsqueeze(-1)).squeeze(-1)
+    #target_model(next_state).detach().max(1)[0]
+    loss = nn.MSELoss(reduction="sum")(y,q)
     
     return loss
 
@@ -89,9 +95,15 @@ class ReplayBuffer(object):
 
     def sample(self, batch_size):
         # TODO: Randomly sampling data with specific batch size from the buffer
+        samp = random.sample(self.buffer,batch_size)
+        print(samp)
 
+        state, action, reward, next_state, done = 0
 
         return state, action, reward, next_state, done
 
     def __len__(self):
         return len(self.buffer)
+
+
+#@Ray I think model.load_state_dict(torch.load("model_pretrained.pth", map_location='cpu')) given in the file loads it, and  torch.save(model.state dict(), filename) to save
