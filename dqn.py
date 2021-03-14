@@ -96,8 +96,8 @@ class ReplayBuffer(object):
         # TODO: Randomly sampling data with specific batch size from the buffer
         samp = random.sample(self.buffer,batch_size)
         print(samp)
-
-        state, action, reward, next_state, done = 0
+        for s in samp:
+            print(s[0] + " " + s[4])
 
         return state, action, reward, next_state, done
 
