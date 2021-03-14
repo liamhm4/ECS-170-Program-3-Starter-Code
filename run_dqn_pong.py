@@ -53,6 +53,10 @@ epsilon_by_frame = lambda frame_idx: epsilon_final + (epsilon_start - epsilon_fi
 
 losses = []
 all_rewards = []
+
+last_loss_index = 0
+last_reward_index = 0
+
 episode_reward = 0
 
 state = env.reset()
@@ -95,11 +99,14 @@ for frame_idx in range(1, num_frames + 1):
         torch.save(model.state_dict(), fileSaveName)
         with open("losses.txt", "a") as f:
             with open("rewards.txt", "a") as g:
-                print(len(losses))
-                print(len(all_rewards))
-               ## for i in range(10000):
-                    #f.write( str(losses[(len(losses) - 10001 + i)]))
-                    #g.write( str(all_rewards[len(all_rewards) - 10001 + i]) )
+                #print(len(losses))
+                #print(len(all_rewards))
+                while last_loss_index < len(losses):
+                    f.write(str(losses[last_loss_index]))
+                    last_loss_index += 1
+                while last_reward_index < len(all_rewards):
+                    g.write(str(all_rewards[last_reward_index]))
+                    last_reward_index += 1
 
 
 
