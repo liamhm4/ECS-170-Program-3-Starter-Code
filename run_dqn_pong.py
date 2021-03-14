@@ -104,10 +104,13 @@ for frame_idx in range(1, num_frames + 1):
                     print(losses[0])
                 #print(len(all_rewards))
                 while last_loss_index < len(losses):
-                    f.write(str(losses[last_loss_index]))
+                    x,y = losses[last_loss_index]
+
+                    f.write(str(x) + "," + str(y[0]) + "\n")
                     last_loss_index += 1
                 while last_reward_index < len(all_rewards):
-                    g.write(str(all_rewards[last_reward_index]))
+                    x,y = all_rewards[last_reward_index]
+                    g.write(str(x) + "," + str(y) + "\n")
                     last_reward_index += 1
 
 
