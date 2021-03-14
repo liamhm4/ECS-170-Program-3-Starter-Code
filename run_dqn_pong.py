@@ -99,7 +99,9 @@ for frame_idx in range(1, num_frames + 1):
         torch.save(model.state_dict(), fileSaveName)
         with open("losses.txt", "a") as f:
             with open("rewards.txt", "a") as g:
-                #print(len(losses))
+                print(len(losses))
+                if len(losses) > 0:
+                    print(losses[0])
                 #print(len(all_rewards))
                 while last_loss_index < len(losses):
                     f.write(str(losses[last_loss_index]))
