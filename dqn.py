@@ -17,7 +17,7 @@ class QLearner(nn.Module):
         self.num_frames = num_frames
         self.replay_buffer = replay_buffer
         self.env = env
-        self.input_shape = self.env.observation_space.wshape
+        self.input_shape = self.env.observation_space.shape
         self.num_actions = self.env.action_space.n
 
         self.features = nn.Sequential(
