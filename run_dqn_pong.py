@@ -1,4 +1,4 @@
-ifrom Wrapper.layers import *
+from Wrapper.layers import *
 from Wrapper.wrappers import make_atari, wrap_deepmind, wrap_pytorch
 import math, random
 import gym
