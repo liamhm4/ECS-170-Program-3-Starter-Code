@@ -61,7 +61,7 @@ episode_reward = 0
 
 state = env.reset()
 
-for frame_idx in range(1, num_frames + 1):
+for frame_idx in range(1000000, num_frames + 1):
     #print("Frame: " + str(frame_idx))
 
     epsilon = epsilon_by_frame(frame_idx)
