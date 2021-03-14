@@ -93,7 +93,7 @@ for frame_idx in range(1, num_frames + 1):
 
     if frame_idx % 10000 == 0:
         torch.save(model.state_dict(), fileSaveName)
-        with open("losses.txt" "a") as f:
+        with open("losses.txt", "a") as f:
             with open("rewards.txt", "a") as g:
                 for i in range(10000):
                     f.write( str(losses[(len(losses) - 10000 + i)]))
