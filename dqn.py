@@ -65,14 +65,14 @@ class QLearner(nn.Module):
 def compute_td_loss(model, target_model, batch_size, gamma, replay_buffer):
     state, action, reward, next_state, done = replay_buffer.sample(batch_size)
 
-    state = Variable(torch.FloatTensor(np.float32(state)))
+    state = Variable(torch.FloatTensor(np.float32(state))).squeeze(1)
     next_state = Variable(torch.FloatTensor(np.float32(next_state)).squeeze(1), requires_grad=True)
     action = Variable(torch.LongTensor(action))
     reward = Variable(torch.FloatTensor(reward))
     done = Variable(torch.FloatTensor(done))
     # implement the loss function here
 
-    q=model(state).gather(1,action.unsqueeze(-1)).squeeze(1)
+    q=model(state).gather(1,action.unsqueeze(-1)).squeeze(-1)
     y=target_model(next_state).detach().max(1)[0]
     y[done==1]=0
     y=y+reward
