@@ -97,7 +97,7 @@ for frame_idx in range(1, num_frames + 1):
             with open("rewards.txt", "a") as g:
                 print(len(losses))
                 print(len(all_rewards))
-                for i in range(10000):
+               ## for i in range(10000):
                     #f.write( str(losses[(len(losses) - 10001 + i)]))
                     #g.write( str(all_rewards[len(all_rewards) - 10001 + i]) )
 
